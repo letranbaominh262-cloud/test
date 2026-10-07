@@ -581,24 +581,109 @@ static void BringupTask(void *argument)
                 HAL_GPIO_WritePin(RS485_RE_PORT, RS485_RE_PIN, GPIO_PIN_RESET);
                 break;
             }
-			/* ---- 0x06: Half-bridge (DRV8908) test ---- */
+			/* ---- 0x06: Half-bridge + current sensor test ---- */
 			case 0x06:
 			{
+				uint32_t i1_zero = 0, i2_zero = 0, i3_zero = 0;
+				int32_t i1_ma, i2_ma, i3_ma;
+				uint8_t drv_status = 0;
+				uint8_t drv_op1 = 0, drv_op2 = 0;
+				uint8_t drv_ok = 0;
+				uint8_t sensor_ok = 0;
+
+				/* Reset previous results so a failed run cannot report stale success. */
+				flag_drv = 0;
+				flag_csense = 0;
+
+				/* Power the driver and keep all coils disabled during calibration. */
 				HAL_GPIO_WritePin(ENLS_PORT, ENLS_PIN, GPIO_PIN_SET);
 				HAL_GPIO_WritePin(EN12_PORT, EN12_PIN, GPIO_PIN_SET);
 				drv_st_init = drv8908_init(&hspi3);
-				for (uint8_t c = 1; c <= 3; c++)
+				if (drv_st_init != HAL_OK)
 				{
-					drv8908_coil_freq(&hspi3, c, DRV_PWM_FREQ_2000HZ);
+					debug_send("Half-bridge init FAIL\r\n");
+					break;
 				}
-				if (drv_st_init == HAL_OK)
+
+				/* Configure the three available coils before applying any PWM. */
+				for (uint8_t coil = 1; coil <= DRV_COIL_COUNT; coil++)
 				{
-					flag_drv = 1;
-					debug_send("Half-bridge bringup success\r\n");
+					drv_st_cmd = drv8908_coil_freq(&hspi3, coil, DRV_PWM_FREQ_2000HZ);
+					if (drv_st_cmd != HAL_OK)
+					{
+						debug_send("Half-bridge frequency FAIL\r\n");
+						break;
+					}
+				}
+				if (drv_st_cmd != HAL_OK)
+				{
+					drv8908_all_off(&hspi3);
+					break;
+				}
+
+				/* Calibration must be performed with the coils off. */
+				drv_st_cmd = drv8908_all_off(&hspi3);
+				if (drv_st_cmd != HAL_OK)
+				{
+					debug_send("Half-bridge off FAIL\r\n");
+					break;
+				}
+
+				/* The ADC handlers are shared with NTC, so each current-sensor
+				 * channel is selected explicitly by csense_read_*(). */
+				drv_st_cmd = csense_calibrate(&hadc1, CSENSE_CH_COIL1, &i1_zero);
+				if (drv_st_cmd == HAL_OK)
+					drv_st_cmd = csense_calibrate(&hadc1, CSENSE_CH_COIL2, &i2_zero);
+				if (drv_st_cmd == HAL_OK)
+					drv_st_cmd = csense_calibrate(&hadc3, CSENSE_CH_COIL3, &i3_zero);
+				if (drv_st_cmd != HAL_OK || i1_zero == 0 || i2_zero == 0 || i3_zero == 0)
+				{
+					debug_send("Current sensor calibration FAIL\r\n");
+					drv8908_all_off(&hspi3);
+					break;
+				}
+
+				/* Apply one short forward test, then read the driver and sensors. */
+				drv_st_cmd = drv8908_coil_duty(&hspi3, 1, 100U);
+				drv_st_cmd |= drv8908_coil_set(&hspi3, 1, DRV_COIL_FWD);
+				if (drv_st_cmd == HAL_OK)
+				{
+					osDelay(100);
+					drv_st_cmd = drv8908_get_status(&hspi3, &drv_status);
+					drv_ok = (drv_st_cmd == HAL_OK);
+					drv_st_cmd |= drv8908_read_reg(&hspi3, DRV_REG_OP_CTRL_1, &drv_op1);
+					drv_ok &= (drv_st_cmd == HAL_OK);
+					drv_st_cmd |= drv8908_read_reg(&hspi3, DRV_REG_OP_CTRL_2, &drv_op2);
+					drv_ok &= (drv_st_cmd == HAL_OK);
+					if (drv_ok)
+					{
+						drv_fault_pin = drv8908_fault_pin();
+						drv_st_cmd = csense_read_ma(&hadc1, CSENSE_CH_COIL1, i1_zero, &i1_ma);
+						if (drv_st_cmd == HAL_OK)
+							drv_st_cmd = csense_read_ma(&hadc1, CSENSE_CH_COIL2, i2_zero, &i2_ma);
+						if (drv_st_cmd == HAL_OK)
+							drv_st_cmd = csense_read_ma(&hadc3, CSENSE_CH_COIL3, i3_zero, &i3_ma);
+						sensor_ok = (drv_st_cmd == HAL_OK);
+					}
+				}
+
+				/* Always release the coil after the test, including on failure. */
+				drv_st_cmd = drv8908_all_off(&hspi3);
+				if (drv_st_cmd != HAL_OK)
+				{
+					debug_send("Half-bridge cleanup FAIL\r\n");
+					break;
+				}
+
+				flag_drv = drv_ok;
+				flag_csense = sensor_ok;
+				if (flag_drv && flag_csense)
+				{
+					debug_send("Half-bridge + current sensor bringup success\r\n");
 				}
 				else
 				{
-					debug_send("Half-bridge bringup FAIL\r\n");
+					debug_send("Half-bridge + current sensor bringup FAIL\r\n");
 				}
 				break;
 			}
@@ -870,4 +955,5 @@ void app_tasks_init(void)
 	// osThreadNew(ComTask,    NULL, &com_attr);
 	// osThreadNew(SensorTask, NULL, &sensor_attr);
 }
-//sua code
+//sua code/
+//chua origin
