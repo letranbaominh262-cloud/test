@@ -870,3 +870,4 @@ void app_tasks_init(void)
 	// osThreadNew(ComTask,    NULL, &com_attr);
 	// osThreadNew(SensorTask, NULL, &sensor_attr);
 }
+//sua code
