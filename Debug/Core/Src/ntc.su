@@ -1,0 +1,5 @@
+../Core/Src/ntc.c:6:19:ntc_init	16	static
+../Core/Src/ntc.c:13:19:ntc_read_raw	56	static
+../Core/Src/ntc.c:46:19:ntc_read_res	24	static
+../Core/Src/ntc.c:60:19:ntc_read_temp	24	static
+../Core/Src/ntc.c:75:19:ntc_read_mc	24	static

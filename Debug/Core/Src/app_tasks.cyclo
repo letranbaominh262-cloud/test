@@ -1,0 +1,10 @@
+../Core/Src/app_tasks.c:114:13:WdgTask	1
+../Core/Src/app_tasks.c:123:13:DebugTask	1
+../Core/Src/app_tasks.c:132:16:big_pattern	1
+../Core/Src/app_tasks.c:137:13:big_fill	2
+../Core/Src/app_tasks.c:142:17:big_check	4
+../Core/Src/app_tasks.c:156:13:big_test_all	11
+../Core/Src/app_tasks.c:212:13:BringupTask	6
+../Core/Src/app_tasks.c:304:13:ComTask	11
+../Core/Src/app_tasks.c:422:13:SensorTask	4
+../Core/Src/app_tasks.c:478:6:app_tasks_init	1

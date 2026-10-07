@@ -1,0 +1,13 @@
+../Core/Src/flash.c:4:26:flash_xfer	40	static
+../Core/Src/flash.c:23:26:flash_cmd	16	static
+../Core/Src/flash.c:28:26:flash_wait_ready	24	static
+../Core/Src/flash.c:50:26:flash_write_enable	24	static
+../Core/Src/flash.c:60:26:flash_erase_cmd	32	static
+../Core/Src/flash.c:78:19:flash_read_id	24	static
+../Core/Src/flash.c:92:19:flash_check_id	24	static
+../Core/Src/flash.c:103:19:flash_read_status	24	static
+../Core/Src/flash.c:115:19:flash_read	184	static
+../Core/Src/flash.c:146:19:flash_write	112	static
+../Core/Src/flash.c:180:19:flash_erase_sector	16	static
+../Core/Src/flash.c:185:19:flash_erase_block	16	static
+../Core/Src/flash.c:190:19:flash_erase_chip	16	static

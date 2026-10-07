@@ -1,0 +1,8 @@
+../Core/Src/fram.c:4:26:fram_xfer	40	static
+../Core/Src/fram.c:24:26:fram_write_enable	24	static
+../Core/Src/fram.c:30:19:fram_read_id	48	static
+../Core/Src/fram.c:47:19:fram_check_id	32	static
+../Core/Src/fram.c:61:19:fram_read_status	24	static
+../Core/Src/fram.c:73:19:fram_write_status	24	static
+../Core/Src/fram.c:85:19:fram_read	176	static
+../Core/Src/fram.c:118:19:fram_write	112	static

@@ -1,0 +1,4 @@
+../Core/Src/tca9548a.c:4:19:tca_write_mask	24	static
+../Core/Src/tca9548a.c:10:19:tca_read_mask	32	static
+../Core/Src/tca9548a.c:16:19:tca_select	16	static
+../Core/Src/tca9548a.c:22:19:tca_release	16	static

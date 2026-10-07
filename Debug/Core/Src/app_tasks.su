@@ -1,0 +1,10 @@
+../Core/Src/app_tasks.c:114:13:WdgTask	16	static
+../Core/Src/app_tasks.c:123:13:DebugTask	16	static
+../Core/Src/app_tasks.c:132:16:big_pattern	16	static
+../Core/Src/app_tasks.c:137:13:big_fill	24	static
+../Core/Src/app_tasks.c:142:17:big_check	32	static
+../Core/Src/app_tasks.c:156:13:big_test_all	16	static
+../Core/Src/app_tasks.c:212:13:BringupTask	32	static
+../Core/Src/app_tasks.c:304:13:ComTask	184	static
+../Core/Src/app_tasks.c:422:13:SensorTask	32	static
+../Core/Src/app_tasks.c:478:6:app_tasks_init	192	static

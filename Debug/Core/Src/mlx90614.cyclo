@@ -1,0 +1,4 @@
+../Core/Src/mlx90614.c:4:16:mlx_crc8	4
+../Core/Src/mlx90614.c:20:19:mlx_read_raw	5
+../Core/Src/mlx90614.c:41:19:mlx_read_object	5
+../Core/Src/mlx90614.c:52:19:mlx_read_ambient	5

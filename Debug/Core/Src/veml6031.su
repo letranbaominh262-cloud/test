@@ -1,0 +1,9 @@
+../Core/Src/veml6031.c:26:26:veml_read16	48	static
+../Core/Src/veml6031.c:43:19:veml_init	40	static
+../Core/Src/veml6031.c:72:19:veml_shutdown	40	static
+../Core/Src/veml6031.c:81:19:veml_check_id	24	static
+../Core/Src/veml6031.c:88:19:veml_read_als	16	static
+../Core/Src/veml6031.c:93:19:veml_read_ir	16	static
+../Core/Src/veml6031.c:98:7:veml_resolution	16	static
+../Core/Src/veml6031.c:106:19:veml_read_lux	32	static
+../Core/Src/veml6031.c:115:10:veml_settle_ms	4	static

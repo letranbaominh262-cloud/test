@@ -1,0 +1,15 @@
+../Core/Src/drv8908.c:7:16:coil_hb_p	1
+../Core/Src/drv8908.c:8:16:coil_hb_n	1
+../Core/Src/drv8908.c:10:26:drv_xfer	2
+../Core/Src/drv8908.c:23:19:drv8908_write_reg	2
+../Core/Src/drv8908.c:30:19:drv8908_read_reg	4
+../Core/Src/drv8908.c:45:19:drv8908_get_status	1
+../Core/Src/drv8908.c:50:9:drv8908_fault_pin	2
+../Core/Src/drv8908.c:55:19:drv8908_clear_faults	3
+../Core/Src/drv8908.c:65:19:drv8908_init	13
+../Core/Src/drv8908.c:99:19:drv8908_sleep	1
+../Core/Src/drv8908.c:106:13:hb_set_bits	4
+../Core/Src/drv8908.c:115:19:drv8908_coil_set	9
+../Core/Src/drv8908.c:154:19:drv8908_coil_duty	6
+../Core/Src/drv8908.c:181:19:drv8908_coil_freq	7
+../Core/Src/drv8908.c:199:19:drv8908_all_off	4
